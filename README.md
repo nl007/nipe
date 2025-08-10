@@ -6,8 +6,13 @@
       <img src="https://img.shields.io/badge/license-MIT-blue.svg">
     </a>
     <a href="https://github.com/htrgouvea/nipe/releases">
-      <img src="https://img.shields.io/badge/version-0.9.5-blue.svg">
+      <img src="https://img.shields.io/badge/version-0.9.8-blue.svg">
     </a>
+     <br/>
+    <img src="https://github.com/htrgouvea/nipe/actions/workflows/linter.yml/badge.svg">
+    <img src="https://github.com/htrgouvea/nipe/actions/workflows/zarn.yml/badge.svg">
+    <img src="https://github.com/htrgouvea/nipe/actions/workflows/security-gate.yml/badge.svg">
+    <img src="https://github.com/htrgouvea/nipe/actions/workflows/test-on-ubuntu.yml/badge.svg">
   </p>
 </p>
 
@@ -19,10 +24,10 @@ The Tor project allows users to surf the Internet, chat and send instant message
 It is used by a wide variety of people, companies and organizations, both for lawful activities and for other illicit purposes. Tor has been largely used by intelligence agencies, hacking groups, criminal activities and even ordinary users who care about their privacy in the digital world.
   
 Nipe is an engine, developed in Perl, that aims on making the Tor network your default network gateway. Nipe can route the traffic from your machine to the Internet through Tor network, so you can surf the Internet having a more formidable stance on privacy and anonymity in cyberspace.
-  
-Currently, only IPv4 is supported by Nipe, but we are working on a solution that adds IPv6 support. Also, 
-only traffic other than DNS requests destined for local and/or loopback addresses is not trafficked through Tor. 
-All non-local UDP/ICMP traffic is also blocked by the Tor project.
+
+Currently, only IPv4 is supported by Nipe, but we are working on a solution that adds IPv6 support. Also, only traffic other than DNS requests destined for local and/or loopback addresses is not trafficked through Tor. All non-local UDP/ICMP traffic is also blocked by the Tor project.
+
+Nipe uses iptables to apply redirection rules. If you may have rules applied to this utility, during the start process, conflicts may occur. When you stop running the Nipe services, all departure rules are removed, not differentiating between the already existing ones and the Nipe rules.
 
 ---
 
@@ -33,7 +38,7 @@ All non-local UDP/ICMP traffic is also blocked by the Tor project.
   $ git clone https://github.com/htrgouvea/nipe && cd nipe
     
   # Install libs and dependencies
-  $ sudo cpan install Try::Tiny Config::Simple JSON
+  $ cpanm --installdeps .
 
   # Nipe must be run as root
   $ perl nipe.pl install
@@ -66,14 +71,28 @@ All non-local UDP/ICMP traffic is also blocked by the Tor project.
 
 ---
 
+### Docker container
+
+```bash
+# Building the container
+$ docker build -t nipe .
+
+# Setup the Nipe container
+$ docker run -d -it --name nipe-container --privileged --cap-add=NET_ADMIN nipe
+
+# Running commands
+$ docker exec -it nipe-container ./nipe.pl <your command>
+
+```
+
+---
+
 ### Contribution
 
-- Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/nipe/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕) This project follows the best practices defined by this [style guide](https://heitorgouvea.me/projects/perl-style-guide).
-
-- If you are interested in providing financial support to this project, please visit: [heitorgouvea.me/donate](https://heitorgouvea.me/donate)
+Your contributions and suggestions are heartily ♥ welcome. [See here the contribution guidelines.](/.github/CONTRIBUTING.md) Please, report bugs via [issues page](https://github.com/htrgouvea/nipe/issues) and for security issues, see here the [security policy.](/SECURITY.md) (✿ ◕‿◕)
 
 ---
 
 ### License
 
-- This work is licensed under [MIT License.](/LICENSE.md)
+This work is licensed under [MIT License.](/LICENSE.md)

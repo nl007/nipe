@@ -1,7 +1,7 @@
 DataDirectory /var/lib/tor
 PidFile /var/run/tor/tor.pid
 RunAsDaemon 1
-User toranon
+User tor
 
 ControlSocket /var/run/tor/control
 ControlSocketsGroupWritable 1
@@ -15,7 +15,7 @@ Log notice file /var/log/tor/log
 ClientOnly 1
 SOCKSPort 0
 TransPort 9051
-DNSPort   9061
+DNSPort 9061
 
 VirtualAddrNetwork 10.66.0.0/255.255.0.0
 AutomapHostsOnResolve 1

@@ -3,29 +3,29 @@ package Nipe::Utils::Install {
 	use warnings;
 	use Nipe::Utils::Device;
 
+	our $VERSION = '0.0.2';
+
 	sub new {
 		my %device  = Nipe::Utils::Device -> new();
-		my $stopTor = "systemctl stop tor";
 		
 		my %install = (
-			"debian" => "apt-get install -y tor iptables",
-			"fedora" => "dnf install -y tor iptables",
-			"centos" => "yum -y install epel-release tor iptables",
-			"void"   => "xbps-install -y tor iptables",
-			"arch"   => "pacman -S --noconfirm tor iptables"
+			debian    => 'apt-get install -y tor iptables',
+			fedora    => 'dnf install -y tor iptables',
+			centos    => 'yum -y install epel-release tor iptables',
+			void      => 'xbps-install -y tor iptables',
+			arch      => 'pacman -S --noconfirm tor iptables',
+			opensuse  => 'zypper install -y tor iptables'
 		);
 
-		if ($device{distribution} eq "void") {
-			$stopTor = "sv stop tor > /dev/null";
+		system $install{$device{distribution}};
+
+		my $stop = Nipe::Engine::Stop -> new();
+
+		if ($stop) {
+			return 1;
 		}
 
-		if (-e "/etc/init.d/tor") {
-			$stopTor = "/etc/init.d/tor stop > /dev/null";
-		}
-
-		system("$install{$device{distribution}} && $stopTor");
-
-		return 1;
+		return 0;
 	}
 }
 
